@@ -12,7 +12,7 @@ Quickstart
 ----------
 .. sourcecode:: console
 
-    # pip3 install lyxexporter
+    # pip3 install https://github.com/OrangeFoil/LyxExporter/archive/master.zip
     $ lyxexporter
     [Not exported] /home/orangefoil/sample1.lyx
     [  Outdated  ] /home/orangefoil/sample2.lyx
