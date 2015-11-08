@@ -1,12 +1,12 @@
 LyxExporter
 ===========
 
-This CLI utility program helps you keeping your PDFs exports from the
-`Lyx Document Processor <http://www.lyx.org>` up to date.
-It scans a given directory for *.lyx files and checks if they have
-been exported to PDF and if the PDFs are older than the Lyx file they are based
-on. If any any PDFs are missing or outdated the user will be prompted with the
-choice to let the program export them.
+This CLI utility helps you keeping your PDFs exports from the
+`Lyx Document Processor <http://www.lyx.org>`_ up to date.
+
+It scans a given directory for \*.lyx files and checks if their corresponding
+PDFs are present and up to date. If any PDFs are missing or outdated the user
+will be prompted with the choice to let the program export them.
 
 Quickstart
 ----------
