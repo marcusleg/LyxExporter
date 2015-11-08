@@ -19,5 +19,5 @@ Quickstart
     23 files scanned. [1 not exported] [1 outdated]
 
     Do you want to export all missing and outdated PDFs now? [y/N] y
-    Export successful /home/orangefoil/Dropbox/FH/sample1.lyx
-    Export successful /home/orangefoil/Dropbox/FH/sample2.lyx
+    Export successful /home/orangefoil/sample1.lyx
+    Export successful /home/orangefoil/sample2.lyx
