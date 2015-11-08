@@ -74,14 +74,12 @@ class LyxFile:
         try:
             subprocess.check_call(["lyx -e pdf \"" + str(self.lyx_file)
                                   + "\""], shell=True)
-        except subprocess.CalledProcessError as error:
+        except subprocess.CalledProcessError:
             print(BC.RED + "Export failed " + BC.ENDC + str(self))
         else:
-            print(BC.GREEN + "Export successful " + BC.ENDC
-                  + str(self))
+            print(BC.GREEN + "Export successful " + BC.ENDC + str(self))
 
         return True if self.is_exported and not self.is_outdated else False
-
 
 
 class Scanner:
@@ -94,7 +92,7 @@ class Scanner:
         self.path = Path(path)
 
         if not self.path.exists():
-            raise NotADirectoryError(BC.RED + "Invalid directory" + BC.ENDC)
+            raise NotADirectoryError("Invalid directory")
 
         self.scan()
 
@@ -102,7 +100,7 @@ class Scanner:
         """populates the "files" array with all *.lyx files """
         if args.verbose:
             print("Scanning \"" + str(self.path.resolve()) + "\" "
-                  +"for Lyx files...")
+                  + "for Lyx files...")
 
         for file in list(self.path.glob('**/*.lyx')):
             f = LyxFile(file)
@@ -160,7 +158,11 @@ class Scanner:
 
 
 def main():
-    scanner = Scanner(args.path)
+    try:
+        scanner = Scanner(args.path)
+    except NotADirectoryError:
+        sys.exit(BC.RED + "Invalid directory" + BC.ENDC)
+
     scanner.check_exports()
     scanner.print_report()
     scanner.prompt_export()
