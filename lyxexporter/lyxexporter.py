@@ -23,10 +23,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import argparse
+import platform
 import sys
 from lyxexporter.scanner import Scanner
 from lyxexporter.bc import BC
 
+
+# end program if started from incompatible OS
+if (platform.system() == "Windows"):
+    print("This programm is not compatible with Windows")
+    sys.exit(1)
 
 # command line arguments
 parser = argparse.ArgumentParser()
