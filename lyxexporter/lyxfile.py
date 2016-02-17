@@ -26,7 +26,7 @@ class LyxFile:
     def export(self):
         """exports the Lyx file to PDF"""
         try:
-            subprocess.check_call(["lyx -e pdf \"" + str(self.lyx_file)
+            subprocess.check_call(["lyx -e pdf2 \"" + str(self.lyx_file)
                                   + "\""], shell=True)
         except subprocess.CalledProcessError:
             print(BC.RED + "Export failed " + BC.ENDC + str(self))
