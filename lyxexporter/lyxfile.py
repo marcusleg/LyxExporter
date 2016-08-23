@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import subprocess
 from lyxexporter.bc import BC
 
@@ -26,8 +27,11 @@ class LyxFile:
     def export(self):
         """exports the Lyx file to PDF"""
         try:
+            devnull = open(os.devnull, "w")
             subprocess.check_call(["lyx -e pdf2 \"" + str(self.lyx_file)
-                                  + "\""], shell=True)
+                                  + "\""], shell=True, \
+                                  stdout=devnull, stderr=devnull)
+            devnull.close()
         except subprocess.CalledProcessError:
             print(BC.RED + "Export failed " + BC.ENDC + str(self))
         else:
