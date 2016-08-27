@@ -47,11 +47,9 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     keywords='latex lyx pdf export',
-    packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+    packages=['lyxexporter'],
     install_requires=[],
-    extras_require={
-        'test': ['coverage'],
-    },
+    test_suite="tests",
     entry_points={
         'console_scripts': [
             'lyxexporter=lyxexporter.cli:main',

@@ -23,29 +23,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import argparse
-import platform
 import sys
 from lyxexporter.scanner import Scanner
 from lyxexporter.bc import BC
 
 
 def platform_check():
-    # end program if started from incompatible OS
-    if (platform.system() == "Windows"):
+    if (sys.platform == "win32"):
         sys.exit("This programm is not compatible with Windows")
+    return True
 
-def parse_args():
-    # command line arguments
+def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('path', nargs='?', default=".")
     parser.add_argument("-v", "--verbose",
                         help="increase output verbosity",
                         action="store_true")
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 def main():
     platform_check()
-    cli_args = parse_args()
+    cli_args = parse_args(sys.argv[1:])
 
     try:
         scanner = Scanner(cli_args)
