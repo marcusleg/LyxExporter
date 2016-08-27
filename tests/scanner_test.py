@@ -15,7 +15,7 @@ class TestScanner(unittest.TestCase):
         with self.assertRaises(NotADirectoryError):
             self.scanner.check_valid_path()
 
-    def test_check_exports(self):
+    def test_check_exports_no_files_found(self):
         self.scanner.files = []
         with self.assertRaises(SystemExit):
             self.scanner.check_exports()
