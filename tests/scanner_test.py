@@ -9,7 +9,7 @@ class TestScanner(unittest.TestCase):
         cli_args = parse_args([])
         self.scanner = Scanner(cli_args)
 
-    def test_check_valid_path(self): 
+    def test_check_valid_path(self):
         self.scanner.path = MagicMock()
         self.scanner.path.exists.return_value = False
         with self.assertRaises(NotADirectoryError):
