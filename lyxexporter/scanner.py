@@ -14,10 +14,12 @@ class Scanner:
         self.cli_args = cli_args
         self.path = Path(self.cli_args.path)
 
+        self.check_valid_path()
+        self.scan()
+
+    def check_valid_path(self):
         if not self.path.exists():
             raise NotADirectoryError("Invalid directory")
-
-        self.scan()
 
     def scan(self):
         """populates the "files" array with all *.lyx files """
