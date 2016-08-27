@@ -26,6 +26,7 @@ class Scanner:
                   + "for Lyx files...")
 
         for file in list(self.path.glob('**/*.lyx')):
+            if file.is_dir(): continue
             f = LyxFile(file)
             self.files.append(f)
 
