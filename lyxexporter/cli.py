@@ -29,21 +29,24 @@ from lyxexporter.scanner import Scanner
 from lyxexporter.bc import BC
 
 
-# end program if started from incompatible OS
-if (platform.system() == "Windows"):
-    print("This programm is not compatible with Windows")
-    sys.exit(1)
+def platform_check():
+    # end program if started from incompatible OS
+    if (platform.system() == "Windows"):
+        sys.exit("This programm is not compatible with Windows")
 
-# command line arguments
-parser = argparse.ArgumentParser()
-parser.add_argument('path', nargs='?', default=".")
-parser.add_argument("-v", "--verbose",
-                    help="increase output verbosity",
-                    action="store_true")
-cli_args = parser.parse_args()
-
+def parse_args():
+    # command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('path', nargs='?', default=".")
+    parser.add_argument("-v", "--verbose",
+                        help="increase output verbosity",
+                        action="store_true")
+    return parser.parse_args()
 
 def main():
+    platform_check()
+    cli_args = parse_args()
+
     try:
         scanner = Scanner(cli_args)
     except NotADirectoryError:
