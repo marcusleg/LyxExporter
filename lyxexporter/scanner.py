@@ -23,11 +23,11 @@ class Scanner:
             print("Scanning \"" + str(self.cli_args.path) + "\" "
                   + "for Lyx files...")
 
-        for file in os.scandir(self.cli_args.path):
-            if file.is_dir(): continue
-            if not file.name.endswith('.lyx'): continue
-            f = LyxFile(file.path)
-            self.files.append(f)
+        for root, dirs, files in os.walk(self.cli_args.path):
+            for name in files:
+                if not name.endswith('.lyx'): continue
+                f = LyxFile(os.path.join(root, name))
+                self.files.append(f)
 
     def check_exports(self):
         """checks the "files" array for Lyx files that were not exported to PDF
