@@ -24,7 +24,8 @@ class Scanner:
 
         for root, dirs, files in os.walk(self.cli_args.path):
             for name in files:
-                if not name.endswith('.lyx'): continue
+                if not name.endswith('.lyx'):
+                    continue
                 f = LyxFile(os.path.join(root, name))
                 self.files.append(f)
 

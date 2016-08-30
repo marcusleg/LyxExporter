@@ -26,9 +26,9 @@ class LyxFile:
         """exports the Lyx file to PDF"""
         try:
             devnull = open(os.devnull, "w")
-            subprocess.check_call(["lyx -e pdf2 \"" + str(self.lyx_file)
-                                  + "\""], shell=True, \
-                                  stdout=devnull, stderr=devnull)
+            subprocess.check_call(
+                ["lyx -e pdf2 \"" + str(self.lyx_file) + "\""],
+                shell=True, stdout=devnull, stderr=devnull)
             devnull.close()
         except subprocess.CalledProcessError:
             Print.export_failed(str(self))

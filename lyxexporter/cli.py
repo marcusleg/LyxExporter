@@ -29,7 +29,7 @@ from lyxexporter.print import Print
 
 
 def platform_check():
-    if (sys.platform == "win32"):
+    if sys.platform == "win32":
         sys.exit("This programm is not compatible with Windows")
     return True
 
