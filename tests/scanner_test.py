@@ -15,6 +15,16 @@ class TestScanner(unittest.TestCase):
         with self.assertRaises(NotADirectoryError):
             self.scanner.check_valid_path()
 
+    @patch('lyxexporter.print.Print.scanning_directory')
+    @patch('lyxexporter.scanner.os.path.isdir')
+    @patch('lyxexporter.scanner.os.walk')
+    def test_scan_verbose_print(self, mock_ow, mock_op, mock_p):
+        mock_ow.return_value = []
+        mock_op.return_value = True
+        scanner = Scanner(parse_args(['-v', 'somedir/']))
+        scanner.scan()
+        mock_p.assert_called_once_with('somedir/')
+
     @patch('lyxexporter.lyxfile.LyxFile.__init__')
     @patch('lyxexporter.scanner.os.walk')
     def test_scan_lyxfile_object_creation(self, mock_sd, mock_lf):
@@ -54,10 +64,12 @@ class TestScanner(unittest.TestCase):
         mock_lf.assert_has_calls(calls)
         self.assertEqual(len(self.scanner.files), 2)
 
-    def test_check_exports_no_files_found(self):
+    @patch('lyxexporter.print.Print.no_lyx_files_found')
+    def test_check_exports_no_files_found(self, mock):
         self.scanner.files = []
         with self.assertRaises(SystemExit):
             self.scanner.check_exports()
+        mock.assert_called_once_with()
 
 
 if __name__ == '__main__':
