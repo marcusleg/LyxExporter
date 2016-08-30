@@ -25,7 +25,7 @@ SOFTWARE.
 import argparse
 import sys
 from lyxexporter.scanner import Scanner
-from lyxexporter.bc import BC
+from lyxexporter.print import Print
 
 
 def platform_check():
@@ -48,7 +48,8 @@ def main():
     try:
         scanner = Scanner(cli_args)
     except NotADirectoryError:
-        sys.exit(BC.RED + "Invalid directory" + BC.ENDC)
+        Print.invalid_directory()
+        sys.exit(1)
 
     scanner.scan()
     scanner.check_exports()

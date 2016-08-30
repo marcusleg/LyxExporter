@@ -1,6 +1,6 @@
 import os
 import subprocess
-from lyxexporter.bc import BC
+from lyxexporter.print import Print
 
 
 class LyxFile:
@@ -31,8 +31,8 @@ class LyxFile:
                                   stdout=devnull, stderr=devnull)
             devnull.close()
         except subprocess.CalledProcessError:
-            print(BC.RED + "Export failed " + BC.ENDC + str(self))
+            Print.export_failed(str(self))
         else:
-            print(BC.GREEN + "Export successful " + BC.ENDC + str(self))
+            Print.export_successful(str(self))
 
         return True if self.is_exported and not self.is_outdated else False
