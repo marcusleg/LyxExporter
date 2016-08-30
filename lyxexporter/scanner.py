@@ -1,5 +1,5 @@
-from pathlib import Path
 import sys
+import os
 from lyxexporter.bc import BC
 from lyxexporter.lyxfile import LyxFile
 
@@ -12,24 +12,23 @@ class Scanner:
 
     def __init__(self, cli_args):
         self.cli_args = cli_args
-        self.path = Path(self.cli_args.path)
-
         self.check_valid_path()
         self.scan()
 
     def check_valid_path(self):
-        if not self.path.exists():
+        if not os.path.isdir(self.cli_args.path):
             raise NotADirectoryError("Invalid directory")
 
     def scan(self):
         """populates the "files" array with all *.lyx files """
         if self.cli_args.verbose:
-            print("Scanning \"" + str(self.path.resolve()) + "\" "
+            print("Scanning \"" + str(self.cli_args.path) + "\" "
                   + "for Lyx files...")
 
-        for file in list(self.path.glob('**/*.lyx')):
+        for file in os.scandir(self.cli_args.path):
             if file.is_dir(): continue
-            f = LyxFile(file)
+            if not file.name.endswith('.lyx'): continue
+            f = LyxFile(file.path)
             self.files.append(f)
 
     def check_exports(self):

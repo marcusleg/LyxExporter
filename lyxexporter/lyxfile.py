@@ -1,4 +1,3 @@
-from pathlib import Path
 import os
 import subprocess
 from lyxexporter.bc import BC
@@ -7,22 +6,21 @@ from lyxexporter.bc import BC
 class LyxFile:
     """Lyx file object"""
     def __init__(self, location):
-        self.lyx_file = Path(location)
-        self.pdf_file = Path(str(self.lyx_file)[:-3] + "pdf")
+        self.lyx_file = location
+        self.pdf_file = location[:-4] + '.pdf'
 
     def __str__(self):
-        return str(self.lyx_file.resolve())
+        return self.lyx_file
 
     def is_exported(self):
         """checks if Lyx file was exported to PDF"""
-        return True if self.pdf_file.exists() else False
+        return True if os.path.isfile(self.pdf_file) else False
 
     def is_outdated(self):
         """checks if the PDF is older than the Lyx file"""
-        if self.pdf_file.stat().st_mtime < self.lyx_file.stat().st_mtime:
-            return True
-        else:
-            return False
+        lyx_timestamp = os.path.getmtime(self.lyx_file)
+        pdf_timestamp = os.path.getmtime(self.pdf_file)
+        return True if lyx_timestamp > pdf_timestamp else False
 
     def export(self):
         """exports the Lyx file to PDF"""
