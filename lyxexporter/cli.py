@@ -50,6 +50,7 @@ def main():
     except NotADirectoryError:
         sys.exit(BC.RED + "Invalid directory" + BC.ENDC)
 
+    scanner.scan()
     scanner.check_exports()
     scanner.print_report()
     scanner.prompt_export()

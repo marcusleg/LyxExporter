@@ -6,14 +6,12 @@ from lyxexporter.lyxfile import LyxFile
 
 class Scanner:
     """scans the given directory for *.lyx files """
-    files = []
-    outdated_files = []
-    notexported_files = []
-
     def __init__(self, cli_args):
+        self.files = []
+        self.outdated_files = []
+        self.notexported_files = []
         self.cli_args = cli_args
         self.check_valid_path()
-        self.scan()
 
     def check_valid_path(self):
         if not os.path.isdir(self.cli_args.path):
