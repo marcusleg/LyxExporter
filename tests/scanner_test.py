@@ -107,6 +107,67 @@ class TestScanner(unittest.TestCase):
         self.assertEqual(len(self.scanner.notexported_files), 0)
         self.assertEqual(len(self.scanner.outdated_files), 0)
 
+    @patch('lyxexporter.print.Print.linebreak')
+    @patch('lyxexporter.print.Print.everything_up_to_date')
+    @patch('lyxexporter.print.Print.num_files_scanned')
+    def test_print_report_nothing_to_do(self, mock1, mock2, mock3):
+        self.scanner.print_report()
+        mock1.assert_called_once_with(0)
+        mock2.assert_called_once_with()
+        mock3.assert_called_once_with()
+
+    @patch('lyxexporter.print.Print.linebreak')
+    @patch('lyxexporter.print.Print.num_not_exported')
+    @patch('lyxexporter.print.Print.num_outdated')
+    @patch('lyxexporter.print.Print.num_files_scanned')
+    def test_print_report_2_files(self, mock_pnfs, mock_po, mock_pnne, mock_lb):
+        mockfile1 = mock_lyxfile('a.lyx', False, False)
+        mockfile2 = mock_lyxfile('b.lyx', True, False)
+        self.scanner.files.append(mockfile1)
+        self.scanner.files.append(mockfile2)
+        self.scanner.notexported_files.append(mockfile1)
+        self.scanner.outdated_files.append(mockfile2)
+        self.scanner.print_report()
+        mock_pnfs.assert_called_once_with(2)
+        mock_po.assert_called_once_with(1)
+        mock_pnne.assert_called_once_with(1)
+        mock_lb.assert_called_once_with()
+
+    def test_prompt_export_nothing_to_do(self):
+        self.assertFalse(self.scanner.prompt_export())
+
+    @patch('lyxexporter.scanner.input')
+    def test_prompt_export_user_input(self, mock_i):
+        mock_i.return_value = 'n'
+        mock_lf = mock_lyxfile('abc.lyx', False, False)
+        self.scanner.notexported_files.append(mock_lf)
+        self.assertTrue(self.scanner.prompt_export())
+        self.assertTrue(mock_i.called)
+
+    @patch('lyxexporter.scanner.input')
+    def test_prompt_export_1_file_not_exported_input_no(self, mock_i):
+        mock_i.return_value = 'n'
+        mock_lf = mock_lyxfile('abc.lyx', False, False)
+        self.scanner.notexported_files.append(mock_lf)
+        self.scanner.prompt_export()
+        mock_lf.export.assert_not_called()
+
+    @patch('lyxexporter.scanner.input')
+    def test_prompt_export_1_file_not_exported_input_yes(self, mock_i):
+        mock_i.return_value = 'Y'
+        mock_lf = mock_lyxfile('abc.lyx', False, False)
+        self.scanner.notexported_files.append(mock_lf)
+        self.scanner.prompt_export()
+        mock_lf.export.assert_called_once_with()
+
+    @patch('lyxexporter.scanner.input')
+    def test_prompt_export_1_file_outdated_input_yes(self, mock_i):
+        mock_i.return_value = 'yes'
+        mock_lf = mock_lyxfile('abc.lyx', True, False)
+        self.scanner.outdated_files.append(mock_lf)
+        self.scanner.prompt_export()
+        mock_lf.export.assert_called_once_with()
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -63,10 +63,11 @@ class Scanner:
     def prompt_export(self):
         """exports outdated/unexported files if users chooses to"""
         if len(self.notexported_files) == 0 and len(self.outdated_files) == 0:
-            return
+            return False
 
         choice = input("\nDo you want to export all missing and outdated PDFs"
                        + " now? [y/N] ")
         if choice.lower() in ["y", "yes"]:
-            for file in self.notexported_files + self.outdated_files:
-                file.export()
+            for lyxfile in self.notexported_files + self.outdated_files:
+                lyxfile.export()
+        return True
