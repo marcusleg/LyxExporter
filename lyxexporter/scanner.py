@@ -36,15 +36,15 @@ class Scanner:
             Print.no_lyx_files_found()
             sys.exit()
 
-        for file in self.files:
-            if not file.is_exported():
-                Print.not_exported(file)
-                self.notexported_files.append(file)
-            elif file.is_outdated():
-                Print.is_outdated(file)
-                self.outdated_files.append(file)
+        for filename in self.files:
+            if not filename.is_exported():
+                Print.not_exported(str(filename))
+                self.notexported_files.append(filename)
+            elif filename.is_outdated():
+                Print.is_outdated(str(filename))
+                self.outdated_files.append(filename)
             elif self.cli_args.verbose:
-                Print.up_to_date(file)
+                Print.up_to_date(str(filename))
 
     def print_report(self):
         """prints how many files were scanned, and how many of those were not

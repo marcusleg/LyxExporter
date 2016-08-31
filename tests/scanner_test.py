@@ -1,8 +1,18 @@
 import unittest
-from unittest.mock import patch, call
+from unittest.mock import patch, call, MagicMock
 
 from lyxexporter.cli import parse_args
 from lyxexporter.scanner import Scanner
+
+
+def mock_lyxfile(location, exported, outdated):
+    """Returns mocked Lyxfile object"""
+    mock = MagicMock()
+    mock.__str__.return_value = location
+    mock.is_exported.return_value = exported
+    mock.is_outdated.return_value = outdated
+    return mock
+
 
 class TestScanner(unittest.TestCase):
     def setUp(self):
@@ -70,6 +80,32 @@ class TestScanner(unittest.TestCase):
         with self.assertRaises(SystemExit):
             self.scanner.check_exports()
         mock.assert_called_once_with()
+
+    @patch('lyxexporter.print.Print.not_exported')
+    def test_check_exports_1_file_not_exported(self, mock_p):
+        mock_lf = mock_lyxfile('abc.lyx', False, False)
+        self.scanner.files.append(mock_lf)
+        self.scanner.check_exports()
+        self.assertEqual(len(self.scanner.notexported_files), 1)
+        self.assertEqual(len(self.scanner.outdated_files), 0)
+        mock_p.assert_called_once_with('abc.lyx')
+
+    @patch('lyxexporter.print.Print.is_outdated')
+    def test_check_exports_1_file_outdated(self, mock_p):
+        mock_lf = mock_lyxfile('abc.lyx', True, True)
+        self.scanner.files.append(mock_lf)
+        self.scanner.check_exports()
+        self.assertEqual(len(self.scanner.notexported_files), 0)
+        self.assertEqual(len(self.scanner.outdated_files), 1)
+        mock_p.assert_called_once_with('abc.lyx')
+
+    @patch('lyxexporter.print.Print.is_outdated')
+    def test_check_exports_1_file_up2date(self, mock_p):
+        mock_lf = mock_lyxfile('abc.lyx', True, False)
+        self.scanner.files.append(mock_lf)
+        self.scanner.check_exports()
+        self.assertEqual(len(self.scanner.notexported_files), 0)
+        self.assertEqual(len(self.scanner.outdated_files), 0)
 
 
 if __name__ == '__main__':
