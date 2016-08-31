@@ -5,18 +5,18 @@ https://github.com/pypa/sampleproject
 """
 
 from setuptools import setup
-from codecs import open
+import codecs
 from os import path
 
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with codecs.open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
     name='lyxexporter',
-    version='1.1.0.dev1',
+    version='1.1.0b1',
     description='Scans a directory for *.lyx files and makes sure they are '
                 + 'exported to PDF',
     long_description=long_description,

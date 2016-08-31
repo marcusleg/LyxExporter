@@ -12,10 +12,6 @@ class TestCLI(unittest.TestCase):
         with self.assertRaises(SystemExit):
             platform_check()
 
-    def test_platform_check_linux(self):
-        sys.platform = 'linux'
-        self.assertTrue(platform_check())
-
     def test_parge_args_no_args(self):
         cli_args = parse_args([])
         self.assertEqual(cli_args.path, '.')

@@ -30,6 +30,11 @@ class Print:
 
     # methods used in cli.py
     @classmethod
+    def version(cls):
+        message = "LyxExporter 1.1.0b1"
+        print(message)
+
+    @classmethod
     def invalid_directory(cls):
         message = cls.format("Invalid Directory", color='RED')
         print(message)

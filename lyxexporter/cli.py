@@ -39,11 +39,18 @@ def parse_args(args):
     parser.add_argument("-v", "--verbose",
                         help="increase output verbosity",
                         action="store_true")
+    parser.add_argument("-V", "--version",
+                        help="prints the lyxexporter version number",
+                        action="store_true")
     return parser.parse_args(args)
 
 def main():
     platform_check()
     cli_args = parse_args(sys.argv[1:])
+
+    if cli_args.version:
+        Print.version()
+        sys.exit(0)
 
     try:
         scanner = Scanner(cli_args)

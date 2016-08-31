@@ -26,10 +26,11 @@ class TestScanner(unittest.TestCase):
         with self.assertRaises(NotADirectoryError):
             self.scanner.check_valid_path()
 
+    @staticmethod
     @patch('lyxexporter.print.Print.scanning_directory')
     @patch('lyxexporter.scanner.os.path.isdir')
     @patch('lyxexporter.scanner.os.walk')
-    def test_scan_verbose_print(self, mock_ow, mock_op, mock_p):
+    def test_scan_verbose_print(mock_ow, mock_op, mock_p):
         mock_ow.return_value = []
         mock_op.return_value = True
         scanner = Scanner(parse_args(['-v', 'somedir/']))
@@ -138,7 +139,7 @@ class TestScanner(unittest.TestCase):
         self.assertFalse(self.scanner.prompt_export())
 
     @unittest.skipIf(
-        platform.python_version()[:3] in ['3.3', '3.4'], 
+        platform.python_version()[:3] in ['3.3', '3.4'],
         'input not patchable in Python ' + platform.python_version())
     @patch('lyxexporter.scanner.input')
     def test_prompt_export_user_input(self, mock_i):
@@ -149,7 +150,7 @@ class TestScanner(unittest.TestCase):
         self.assertTrue(mock_i.called)
 
     @unittest.skipIf(
-        platform.python_version()[:3] in ['3.3', '3.4'], 
+        platform.python_version()[:3] in ['3.3', '3.4'],
         'input not patchable in Python ' + platform.python_version())
     @patch('lyxexporter.scanner.input')
     def test_prompt_export_1_file_not_exported_input_no(self, mock_i):
@@ -160,7 +161,7 @@ class TestScanner(unittest.TestCase):
         mock_lf.export.assert_not_called()
 
     @unittest.skipIf(
-        platform.python_version()[:3] in ['3.3', '3.4'], 
+        platform.python_version()[:3] in ['3.3', '3.4'],
         'input not patchable in Python ' + platform.python_version())
     @patch('lyxexporter.scanner.input')
     def test_prompt_export_1_file_not_exported_input_yes(self, mock_i):
@@ -171,7 +172,7 @@ class TestScanner(unittest.TestCase):
         mock_lf.export.assert_called_once_with()
 
     @unittest.skipIf(
-        platform.python_version()[:3] in ['3.3', '3.4'], 
+        platform.python_version()[:3] in ['3.3', '3.4'],
         'input not patchable in Python ' + platform.python_version())
     @patch('lyxexporter.scanner.input')
     def test_prompt_export_1_file_outdated_input_yes(self, mock_i):
