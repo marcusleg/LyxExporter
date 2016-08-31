@@ -1,5 +1,6 @@
 import unittest
 from unittest.mock import patch, call, MagicMock
+import platform
 
 from lyxexporter.cli import parse_args
 from lyxexporter.scanner import Scanner
@@ -136,6 +137,9 @@ class TestScanner(unittest.TestCase):
     def test_prompt_export_nothing_to_do(self):
         self.assertFalse(self.scanner.prompt_export())
 
+    @unittest.skipIf(
+        platform.python_version()[:3] in ['3.3', '3.4'], 
+        'input not patchable in Python ' + platform.python_version())
     @patch('lyxexporter.scanner.input')
     def test_prompt_export_user_input(self, mock_i):
         mock_i.return_value = 'n'
@@ -144,6 +148,9 @@ class TestScanner(unittest.TestCase):
         self.assertTrue(self.scanner.prompt_export())
         self.assertTrue(mock_i.called)
 
+    @unittest.skipIf(
+        platform.python_version()[:3] in ['3.3', '3.4'], 
+        'input not patchable in Python ' + platform.python_version())
     @patch('lyxexporter.scanner.input')
     def test_prompt_export_1_file_not_exported_input_no(self, mock_i):
         mock_i.return_value = 'n'
@@ -152,6 +159,9 @@ class TestScanner(unittest.TestCase):
         self.scanner.prompt_export()
         mock_lf.export.assert_not_called()
 
+    @unittest.skipIf(
+        platform.python_version()[:3] in ['3.3', '3.4'], 
+        'input not patchable in Python ' + platform.python_version())
     @patch('lyxexporter.scanner.input')
     def test_prompt_export_1_file_not_exported_input_yes(self, mock_i):
         mock_i.return_value = 'Y'
@@ -160,6 +170,9 @@ class TestScanner(unittest.TestCase):
         self.scanner.prompt_export()
         mock_lf.export.assert_called_once_with()
 
+    @unittest.skipIf(
+        platform.python_version()[:3] in ['3.3', '3.4'], 
+        'input not patchable in Python ' + platform.python_version())
     @patch('lyxexporter.scanner.input')
     def test_prompt_export_1_file_outdated_input_yes(self, mock_i):
         mock_i.return_value = 'yes'
