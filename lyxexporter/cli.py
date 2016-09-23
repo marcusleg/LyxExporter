@@ -42,6 +42,9 @@ def parse_args(args):
     parser.add_argument("-V", "--version",
                         help="prints the lyxexporter version number",
                         action="store_true")
+    parser.add_argument("-y", "--yes",
+                        help="assume \"yes\" as answer to all prompts and run non-interactively",
+                        action="store_true")
     return parser.parse_args(args)
 
 def main():

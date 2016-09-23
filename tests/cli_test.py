@@ -21,6 +21,10 @@ class TestCLI(unittest.TestCase):
         cli_args = parse_args(['-v'])
         self.assertTrue(cli_args.verbose)
 
+    def test_parge_args_yes(self):
+        cli_args = parse_args(['-y'])
+        self.assertTrue(cli_args.yes)
+
     def test_parge_args_specific_dir(self):
         cli_args = parse_args(['some_directory/'])
         self.assertEqual(cli_args.path, 'some_directory/')

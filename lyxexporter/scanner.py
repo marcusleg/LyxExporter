@@ -65,9 +65,11 @@ class Scanner:
         if len(self.notexported_files) == 0 and len(self.outdated_files) == 0:
             return False
 
-        choice = input("\nDo you want to export all missing and outdated PDFs"
-                       + " now? [y/N] ")
-        if choice.lower() in ["y", "yes"]:
+        
+        if not self.cli_args.yes:
+            choice = input("\nDo you want to export all missing and outdated PDFs"
+                           + " now? [y/N] ")
+        if self.cli_args.yes or choice.lower() in ["y", "yes"]:
             for lyxfile in self.notexported_files + self.outdated_files:
                 lyxfile.export()
         return True
