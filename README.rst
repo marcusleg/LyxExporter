@@ -1,10 +1,10 @@
 LyxExporter
 ===========
 
-This CLI utility assists you in keeping your PDFs exports of from the
+This CLI utility assists you in keeping your PDFs exports of your
 `Lyx <http://www.lyx.org>`_ and Latex files up to date.
 
-It scans a given directory for \*.lyx and/or \*.tex files and checks if their 
+It scans a given directory for \*.lyx and \*.tex files and checks if their 
 corresponding PDFs are present and up to date. If any PDFs are missing or outdated 
 the user will be prompted with the choice to let the program export them.
 
