@@ -33,6 +33,7 @@ def platform_check():
         sys.exit("This programm is not compatible with Windows")
     return True
 
+
 def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('path', nargs='?', default=".")
@@ -49,19 +50,21 @@ def parse_args(args):
                         help="prints the lyxexporter version number",
                         action="store_true")
     parser.add_argument("-y", "--yes",
-                        help="assume \"yes\" as answer to all prompts and run non-interactively",
+                        help="assume \"yes\" as answer to all prompts and run"
+                             " non-interactively",
                         action="store_true")
-    return parser.parse_args(args)
+    return vars(parser.parse_args(args))
+
 
 def main():
     platform_check()
     cli_args = parse_args(sys.argv[1:])
 
-    if cli_args.version:
+    if cli_args["version"]:
         Print.version()
         sys.exit(0)
 
-    if cli_args.lyx_only and cli_args.tex_only:
+    if cli_args["lyx_only"] and cli_args["tex_only"]:
         Print.conflicting_arguments()
         sys.exit(1)
 
@@ -75,6 +78,7 @@ def main():
     scanner.check_exports()
     scanner.print_report()
     scanner.prompt_export()
+
 
 if __name__ == "__main__":
     main()
