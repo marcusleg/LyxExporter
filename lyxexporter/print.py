@@ -15,6 +15,11 @@ class Print:
     UNDERLINE = '\033[4m'
 
     @classmethod
+    def conflicting_arguments(cls):
+        message = "Conflicting Arguments"
+        print(message)
+
+    @classmethod
     def format(cls, message, color='', bold=False, underline=False):
         if color.upper() in cls.colors:
             message = cls.colors[color.upper()] + message
@@ -31,7 +36,7 @@ class Print:
     # methods used in cli.py
     @classmethod
     def version(cls):
-        message = "LyxExporter 1.1.0b1"
+        message = "LyxExporter 1.2.0"
         print(message)
 
     @classmethod
