@@ -17,7 +17,8 @@ def mock_lyxfile(location, exported, outdated):
 
 class TestScanner(unittest.TestCase):
     def setUp(self):
-        cli_args = parse_args([])
+        cli_args = {'path': '.', 'lyx_only': False, 'tex_only': False,
+                    'verbose': False, 'version': False, 'yes': False}
         self.scanner = Scanner(cli_args)
 
     @patch('lyxexporter.scanner.os.path')
@@ -33,7 +34,10 @@ class TestScanner(unittest.TestCase):
     def test_scan_verbose_print(mock_ow, mock_op, mock_p):
         mock_ow.return_value = []
         mock_op.return_value = True
-        scanner = Scanner(parse_args(['-v', 'somedir/']))
+        cli_args = {'path': 'somedir/', 'lyx_only': False, 'tex_only': False,
+                    'verbose': True, 'version': False, 'yes': False}
+        print(cli_args["path"])
+        scanner = Scanner(cli_args)
         scanner.scan()
         mock_p.assert_called_once_with('somedir/')
 

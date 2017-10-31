@@ -15,20 +15,20 @@ class Scanner:
         self.check_valid_path()
 
     def check_valid_path(self):
-        if not os.path.isdir(self.cli_args.path):
+        if not os.path.isdir(self.cli_args["path"]):
             raise NotADirectoryError("Invalid directory")
 
     def scan(self):
         """populates the "files" array with all *.lyx files """
-        if self.cli_args.verbose:
-            Print.scanning_directory(self.cli_args.path)
+        if self.cli_args["verbose"]:
+            Print.scanning_directory(self.cli_args["path"])
 
-        for root, dirs, files in os.walk(self.cli_args.path):
+        for root, dirs, files in os.walk(self.cli_args["path"]):
             for name in files:
-                if not self.cli_args.tex_only and name.endswith('.lyx'):
+                if not self.cli_args["tex_only"] and name.endswith('.lyx'):
                     f = LyxFile(os.path.join(root, name))
                     self.files.append(f)
-                elif not self.cli_args.lyx_only and name.endswith('.tex'):
+                elif not self.cli_args["lyx_only"] and name.endswith('.tex'):
                     f = TexFile(os.path.join(root, name))
                     self.files.append(f)
 
@@ -46,7 +46,7 @@ class Scanner:
             elif filename.is_outdated():
                 Print.is_outdated(str(filename))
                 self.outdated_files.append(filename)
-            elif self.cli_args.verbose:
+            elif self.cli_args["verbose"]:
                 Print.up_to_date(str(filename))
 
     def print_report(self):
@@ -69,10 +69,11 @@ class Scanner:
             return False
 
         
-        if not self.cli_args.yes:
-            choice = input("\nDo you want to export all missing and outdated PDFs"
-                           + " now? [y/N] ")
-        if self.cli_args.yes or choice.lower() in ["y", "yes"]:
+        if not self.cli_args["yes"]:
+            choice = input("\nDo you want to export all missing and outdated "
+                           "PDFs now? [y/N] ")
+
+        if self.cli_args["yes"] or choice.lower() in ["y", "yes"]:
             for lyxfile in self.notexported_files + self.outdated_files:
                 lyxfile.export()
         return True

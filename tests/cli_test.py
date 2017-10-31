@@ -14,20 +14,20 @@ class TestCLI(unittest.TestCase):
 
     def test_parge_args_no_args(self):
         cli_args = parse_args([])
-        self.assertEqual(cli_args.path, '.')
-        self.assertFalse(cli_args.verbose)
+        self.assertEqual(cli_args["path"], '.')
+        self.assertFalse(cli_args["verbose"])
 
     def test_parge_args_verbose(self):
         cli_args = parse_args(['-v'])
-        self.assertTrue(cli_args.verbose)
+        self.assertTrue(cli_args["verbose"])
 
     def test_parge_args_yes(self):
         cli_args = parse_args(['-y'])
-        self.assertTrue(cli_args.yes)
+        self.assertTrue(cli_args["yes"])
 
     def test_parge_args_specific_dir(self):
         cli_args = parse_args(['some_directory/'])
-        self.assertEqual(cli_args.path, 'some_directory/')
+        self.assertEqual(cli_args["path"], 'some_directory/')
 
 
 if __name__ == '__main__':
