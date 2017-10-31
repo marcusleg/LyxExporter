@@ -17,9 +17,9 @@ def mock_lyxfile(location, exported, outdated):
 
 class TestScanner(unittest.TestCase):
     def setUp(self):
-        cli_args = {'path': '.', 'lyx_only': False, 'tex_only': False,
+        self.cli_args = {'path': '.', 'lyx_only': False, 'tex_only': False,
                     'verbose': False, 'version': False, 'yes': False}
-        self.scanner = Scanner(cli_args)
+        self.scanner = Scanner(self.cli_args)
 
     @patch('lyxexporter.scanner.os.path')
     def test_check_valid_path(self, mock):
@@ -47,7 +47,7 @@ class TestScanner(unittest.TestCase):
         mock_sd.return_value = [['.', [], ['document.lyx']]]
         mock_lf.return_value = None
         self.scanner.scan()
-        mock_lf.assert_called_once_with('./document.lyx')
+        mock_lf.assert_called_once_with('./document.lyx', self.cli_args)
 
     @patch('lyxexporter.scanner.os.walk')
     def test_scan_empty_dir(self, mock):
@@ -76,7 +76,8 @@ class TestScanner(unittest.TestCase):
         ]
         mock_lf.return_value = None
         self.scanner.scan()
-        calls = [call('dir1/a.lyx'), call('dir2/b.lyx')]
+        calls = [call('dir1/a.lyx', self.cli_args),
+                 call('dir2/b.lyx', self.cli_args)]
         mock_lf.assert_has_calls(calls)
         self.assertEqual(len(self.scanner.files), 2)
 

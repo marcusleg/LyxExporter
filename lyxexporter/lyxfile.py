@@ -5,9 +5,10 @@ from lyxexporter.print import Print
 
 class LyxFile:
     """Lyx file object"""
-    def __init__(self, location):
+    def __init__(self, location, cli_args):
         self.lyx_file = location
         self.pdf_file = location[:-4] + '.pdf'
+        self.cli_args = cli_args
 
     def __str__(self):
         return self.lyx_file

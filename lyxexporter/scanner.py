@@ -26,10 +26,10 @@ class Scanner:
         for root, dirs, files in os.walk(self.cli_args["path"]):
             for name in files:
                 if not self.cli_args["tex_only"] and name.endswith('.lyx'):
-                    f = LyxFile(os.path.join(root, name))
+                    f = LyxFile(os.path.join(root, name), self.cli_args)
                     self.files.append(f)
                 elif not self.cli_args["lyx_only"] and name.endswith('.tex'):
-                    f = TexFile(os.path.join(root, name))
+                    f = TexFile(os.path.join(root, name), self.cli_args)
                     self.files.append(f)
 
     def check_exports(self):
