@@ -1,6 +1,7 @@
 import sys
 import os
 from lyxexporter.lyxfile import LyxFile
+from lyxexporter.texfile import TexFile
 from lyxexporter.print import Print
 
 
@@ -24,10 +25,12 @@ class Scanner:
 
         for root, dirs, files in os.walk(self.cli_args.path):
             for name in files:
-                if not name.endswith('.lyx'):
-                    continue
-                f = LyxFile(os.path.join(root, name))
-                self.files.append(f)
+                if not self.cli_args.tex_only and name.endswith('.lyx'):
+                    f = LyxFile(os.path.join(root, name))
+                    self.files.append(f)
+                elif not self.cli_args.lyx_only and name.endswith('.tex'):
+                    f = TexFile(os.path.join(root, name))
+                    self.files.append(f)
 
     def check_exports(self):
         """checks the "files" array for Lyx files that were not exported to PDF
