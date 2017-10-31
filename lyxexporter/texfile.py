@@ -5,9 +5,10 @@ from lyxexporter.print import Print
 
 class TexFile:
     """Tex file object"""
-    def __init__(self, location):
+    def __init__(self, location, cli_args):
         self.tex_file = location
         self.pdf_file = location[:-4] + '.pdf'
+        self.cli_args = cli_args
 
     def __str__(self):
         return self.tex_file
