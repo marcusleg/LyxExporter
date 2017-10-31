@@ -26,18 +26,15 @@ class TexFile:
     def export(self):
         """exports the Tex file to PDF"""
         try:
-            devnull = open(os.devnull, "w")
-            print("pdflatex -interaction nonstopmode -output-directory \""
-                  + os.path.dirname(self.tex_file) + "\" \""
-                  + str(self.tex_file) + "\"")
-            subprocess.check_call(
+            subprocess.check_output(
                 ["pdflatex -interaction nonstopmode -output-directory \""
                  + os.path.dirname(self.tex_file) + "\" \""
                  + str(self.tex_file) + "\""],
-                shell=True, stdout=devnull, stderr=devnull)
-            devnull.close()
-        except subprocess.CalledProcessError:
+                shell=True, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as ex:
             Print.export_failed(str(self))
+            if self.cli_args["verbose"]:
+                print(ex.output.decode('ascii'))
         else:
             Print.export_successful(str(self))
 
