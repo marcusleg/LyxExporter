@@ -26,13 +26,13 @@ class LyxFile:
     def export(self):
         """exports the Lyx file to PDF"""
         try:
-            devnull = open(os.devnull, "w")
-            subprocess.check_call(
+            subprocess.check_output(
                 ["lyx -e pdf2 \"" + str(self.lyx_file) + "\""],
-                shell=True, stdout=devnull, stderr=devnull)
-            devnull.close()
-        except subprocess.CalledProcessError:
+                shell=True, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as ex:
             Print.export_failed(str(self))
+            if self.cli_args["verbose"]:
+                print(ex.output.decode('ascii'))
         else:
             Print.export_successful(str(self))
 

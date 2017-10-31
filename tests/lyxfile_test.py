@@ -46,19 +46,19 @@ class TestLyxFile(unittest.TestCase):
         self.assertFalse(lyxfile.is_outdated())
 
     @patch('lyxexporter.print.Print.export_successful')
-    @patch('lyxexporter.lyxfile.subprocess.check_call')
-    def test_export_successful(self, mock_scc, mock_p):
+    @patch('lyxexporter.lyxfile.subprocess.check_output')
+    def test_export_successful(self, mock_sco, mock_p):
         lyxfile = LyxFile('somedir/abc.lyx', self.cli_args)
         lyxfile.export()
-        self.assertTrue(mock_scc.called)
+        self.assertTrue(mock_sco.called)
         mock_p.assert_called_once_with('somedir/abc.lyx')
 
     @patch('lyxexporter.print.Print.export_failed')
-    @patch('lyxexporter.lyxfile.subprocess.check_call')
-    def test_export_failed(self, mock_scc, mock_p):
+    @patch('lyxexporter.lyxfile.subprocess.check_output')
+    def test_export_failed(self, mock_sco, mock_p):
         import subprocess
-        mock_scc.side_effect = subprocess.CalledProcessError(1, '')
+        mock_sco.side_effect = subprocess.CalledProcessError(1, '')
         lyxfile = LyxFile('somedir/abc.lyx', self.cli_args)
         self.assertFalse(lyxfile.export())
-        self.assertTrue(mock_scc.called)
+        self.assertTrue(mock_sco.called)
         mock_p.assert_called_once_with('somedir/abc.lyx')
