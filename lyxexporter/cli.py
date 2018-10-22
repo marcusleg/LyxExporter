@@ -38,10 +38,10 @@ def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('path', nargs='?', default=".")
     parser.add_argument("--lyx-only",
-                        help="only consider .lyx files",
+                        help="only scan for .lyx files",
                         action="store_true")
     parser.add_argument("--tex-only",
-                        help="only consider .tex files",
+                        help="only scan for .tex files",
                         action="store_true")
     parser.add_argument("-v", "--verbose",
                         help="increase output verbosity",
