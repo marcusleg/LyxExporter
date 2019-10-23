@@ -36,7 +36,7 @@ class Print:
     # methods used in cli.py
     @classmethod
     def version(cls):
-        message = "LyxExporter 1.2.0"
+        message = "LyxExporter 1.3.0"
         print(message)
 
     @classmethod

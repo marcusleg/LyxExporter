@@ -37,12 +37,6 @@ def platform_check():
 def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('path', nargs='?', default=".")
-    parser.add_argument("--lyx-only",
-                        help="only scan for .lyx files",
-                        action="store_true")
-    parser.add_argument("--tex-only",
-                        help="only scan for .tex files",
-                        action="store_true")
     parser.add_argument("-v", "--verbose",
                         help="increase output verbosity",
                         action="store_true")
@@ -63,10 +57,6 @@ def main():
     if cli_args["version"]:
         Print.version()
         sys.exit(0)
-
-    if cli_args["lyx_only"] and cli_args["tex_only"]:
-        Print.conflicting_arguments()
-        sys.exit(1)
 
     try:
         scanner = Scanner(cli_args)

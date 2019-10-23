@@ -16,7 +16,7 @@ with codecs.open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='lyxexporter',
-    version='1.2.0',
+    version='1.3.0',
     description='Scans a directory for *.lyx files and makes sure they are '
                 + 'exported to PDF',
     long_description=long_description,
